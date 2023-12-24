@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "app",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -11,13 +11,24 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.1",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@ffmpeg/ffmpeg": "^0.12.9",
+    "@mui/icons-material": "^5.15.1",
+    "@mui/material": "^5.15.1",
     "@remix-run/css-bundle": "^2.4.1",
     "@remix-run/node": "^2.4.1",
     "@remix-run/react": "^2.4.1",
     "@remix-run/serve": "^2.4.1",
+    "axios": "^1.6.2",
+    "framer-motion": "^6.5.1",
     "isbot": "^3.6.8",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-audio-voice-recorder": "^2.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.12.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.4.1",
