@@ -1,0 +1,23 @@
+@font-face {
+  font-family: yekan;
+  font-weight: bolder;
+  src: url("/fonts/yekan/Yekan Bakh Fa 07 Heavy.woff") format("woff");
+}
+
+@font-face {
+  font-family: yekan;
+  font-weight: bold;
+  src: url("/fonts/yekan/Yekan Bakh Fa 06 Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: yekan;
+  font-weight: lighter;
+  src: url("/fonts/yekan/Yekan Bakh Fa 03 Light.woff") format("woff");
+}
+
+@font-face {
+  font-family: yekan;
+  font-weight: normal;
+  src: url("/fonts/yekan/Yekan Bakh Fa 04 Regular.woff") format("woff");
+}

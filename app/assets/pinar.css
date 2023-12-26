@@ -1,0 +1,39 @@
+@font-face {
+  font-family: pinar;
+  font-weight: lighter;
+  src: url("/fonts/pinar/Pinar-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: pinar;
+  font-weight: 600;
+  src: url("/fonts/pinar/Pinar-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: pinar;
+  font-weight: 500;
+  src: url("/fonts/pinar/Pinar-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: pinar-medium;
+  font-weight: 500;
+  src: url("/fonts/pinar/Pinar-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: pinar;
+  font-weight: bold;
+  src: url("/fonts/pinar/Pinar-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: pinar;
+  font-weight: bolder;
+  src: url("/fonts/pinar/Pinar-ExtraBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: pinar;
+  font-weight: 400;
+  src: url("/fonts/pinar/Pinar-Regular.woff2") format("woff2");
+}

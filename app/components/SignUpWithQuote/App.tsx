@@ -15,7 +15,7 @@ import * as React from "react";
 import { SignUpForm } from "./SignUpForm";
 
 export const App = () => (
-  <Box py={{ base: "12", md: "24" }} maxW="7xl" mx="auto">
+  <Box py={{ base: "12", md: "12" }} maxW="7xl" mx="auto">
     <Stack direction="row" spacing="12">
       <Flex flex="1">
         <SignUpForm />

@@ -1,7 +1,13 @@
 import { chakra, HTMLChakraProps } from "@chakra-ui/react";
 
 export const Logo = (props: HTMLChakraProps<"svg">) => (
-  <img src="https://ussistant.ir/wp-content/uploads/2022/04/logo.svg" />
+  // <img src="https://ussistant.ir/wp-content/uploads/2022/04/logo.svg" />
+
+  <img
+    style={{ width: "150px", marginBottom: "-4rem", marginTop: "-2rem" }}
+    src="/ussis.png"
+  />
+
   // <chakra.svg
   //   color="accent"
   //   height="12"

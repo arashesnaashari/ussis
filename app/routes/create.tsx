@@ -4,6 +4,7 @@ import { IoPause } from "react-icons/io5/index.js";
 import { IoPlay } from "react-icons/io5/index.js";
 import { IoStop } from "react-icons/io5/index.js";
 import { ImCross } from "react-icons/im/index.js";
+import { FaMicrophone } from "react-icons/fa/index.js";
 import type { MetaFunction } from "@remix-run/node";
 import {
   Avatar,
@@ -34,7 +35,16 @@ export default function App() {
   const [a, setA] = React.useState(false);
   const [finish, setFinish] = React.useState(false);
   const [next, setNext] = React.useState(false);
-  const [text, setText] = React.useState();
+  const [text, setText] = React.useState<{
+    detail: string;
+    id: string;
+    query_text: string;
+  }>();
+  // {
+  //   detail: "aaaa",
+  //   id: "1",
+  //   query_text: "کاور پوکو X5 پرو",
+  // }
   const [cansel, setCansel] = React.useState(false);
   const navigate = useNavigate();
   let file: any;
@@ -70,9 +80,13 @@ export default function App() {
 
   React.useEffect(() => {
     setTimeout(() => {
-      setA(true);
+      if (typeof window !== "undefined") {
+        // document.querySelector(".audio-recorder-mic").style.border =
+        //   "#242e59 1px solid";
+        setA(true);
+      }
     }, 300);
-  });
+  }, []);
   const recorderControls = useAudioRecorder(
     {
       noiseSuppression: true,
@@ -90,11 +104,12 @@ export default function App() {
     let url = "https://asr-api2.ussistant.ir/collect/voice/send_voice";
     file = new File(
       [recorderControls.recordingBlob ? recorderControls.recordingBlob : ""],
-      "name"
+      "name.webm",
+      { type: "video/webm" }
     );
     var fd = new FormData();
     fd.append("file", file);
-    fd.append("query_id", text?.id);
+    fd.append("query_id", text?.id ?? "");
 
     fetch(url, {
       method: "POST",
@@ -120,117 +135,193 @@ export default function App() {
   };
   const handleNext = () => {
     console.log();
-    navigate("/create");
+    location.reload();
   };
+
+  const handleStart = () => {
+    recorderControls.startRecording();
+  };
+
+  // React.useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     document.querySelector(".audio-recorder-mic").style.border =
+  //       "white 1px solid";
+  //   }
+  // }, [recorderControls.isRecording]);
 
   const handleStop = () => {
     setFinish(true);
     recorderControls.stopRecording();
   };
   return (
-    <Box py={{ base: "12", md: "24" }} maxW="7xl" mx="auto">
-      <Stack direction="row" spacing="12">
-        <Flex flex="1">
-          <Container
-            maxW="md"
-            py={{ base: "0", sm: "8" }}
-            px={{ base: "4", sm: "10" }}
-            bg={useBreakpointValue({ base: "transparent", sm: "bg-surface" })}
-            boxShadow={{ base: "none", sm: useColorModeValue("md", "md-dark") }}
-            borderRadius={{ base: "none", sm: "xl" }}
-          >
-            <Stack spacing="8">
-              <Stack spacing="6" align="center">
-                <Box>
-                  {text && text.query_text ? text.query_text : text?.detail}
-                </Box>
-              </Stack>
+    <>
+      <Box py={{ base: "12", md: "24" }} maxW="7xl" mx="auto">
+        <Stack direction="row" spacing="12">
+          <Flex flex="1">
+            <Container
+              border={"#242e59 1px solid"}
+              fontFamily={"pinar"}
+              float={"right"}
+              maxW="3000px"
+              w={{ base: "90%", md: "40%" }}
+              py={{ base: "0", sm: "8" }}
+              px={{ base: "4", sm: "10" }}
+              bg={useBreakpointValue({ base: "white", sm: "white" })}
+              boxShadow={{ base: "sm", sm: useColorModeValue("sm", "md-dark") }}
+              borderRadius={{ base: "none", sm: "xl" }}
+            >
+              <Stack spacing="8">
+                <Stack spacing="6" align="center">
+                  <Box
+                    fontWeight={"bold"}
+                    // borderRadius={{ base: "none", sm: "xl" }}
+                    borderBottom={"#242e59 1px solid"}
+                    padding={"1rem"}
+                  >
+                    {text && text.query_text ? text.query_text : text?.detail}
+                  </Box>
+                </Stack>
 
-              <Stack spacing={"6"} align={"center"}>
-                {a && !text?.detail && (
-                  <AudioRecorder
-                    classes={{
-                      AudioRecorderPauseResumeClass: "arash",
-                      AudioRecorderDiscardClass: "arash",
-                      // AudioRecorderStartSaveClass: "arash",
-                    }}
-                    // onRecordingComplete={(blob) => addAudioElement(blob)}
-                    recorderControls={recorderControls}
-                    downloadOnSavePress={false}
-                    downloadFileExtension="mp3"
-                    showVisualizer={true}
-                  />
-                )}
-                <br />
-                {recorderControls.isRecording && (
-                  <HStack bgColor={"white"}>
-                    <Button
-                      bgColor={"#ebebeb"}
-                      boxShadow={"sl"}
-                      p={"3"}
-                      onClick={handleStop}
-                    >
-                      <Icon
-                        color={"gray.800"}
-                        transform={"scale(0.9)"}
-                        as={IoStop}
-                      />
-                    </Button>
-                    <Button
-                      bgColor={"#ebebeb"}
-                      boxShadow={"sl"}
-                      p={"3"}
-                      onClick={recorderControls.stopRecording}
-                    >
-                      <Icon
-                        color={"gray.800"}
-                        transform={"scale(0.9)"}
-                        as={ImCross}
-                      />
-                    </Button>
-
-                    <Button
-                      bgColor={"#ebebeb"}
-                      boxShadow={"sl"}
-                      p={"3"}
-                      onClick={recorderControls.togglePauseResume}
-                    >
-                      {recorderControls.isPaused ? (
+                <Stack spacing={"3"} align={"center"}>
+                  {/* !text?.detail */}
+                  {a && (
+                    <VStack alignItems={"center"} spacing={"3"}>
+                      <Box filter={"grayscale(1.4)"}>
+                        <AudioRecorder
+                          classes={{
+                            AudioRecorderPauseResumeClass: "arash",
+                            AudioRecorderDiscardClass: "arash",
+                            AudioRecorderStartSaveClass: "arash",
+                          }}
+                          // onRecordingComplete={(blob) => addAudioElement(blob)}
+                          recorderControls={recorderControls}
+                          // downloadOnSavePress={true}
+                          downloadFileExtension="mp3"
+                          showVisualizer={true}
+                        />
+                      </Box>
+                      <Button
+                        bgColor={
+                          recorderControls.isRecording ? "gary.100" : "#242e59"
+                        }
+                        border={
+                          recorderControls.isRecording
+                            ? "1px solid #242e59"
+                            : "none"
+                        }
+                        boxShadow={"sl"}
+                        p={"3"}
+                        onClick={handleStart}
+                      >
+                        <Icon
+                          // _hover={{
+                          //   color: "black",
+                          // }}
+                          color={
+                            recorderControls.isRecording ? "#242e59" : "white"
+                          }
+                          transform={"scale(1.2)"}
+                          as={FaMicrophone}
+                        />
+                      </Button>
+                    </VStack>
+                  )}
+                  <br />
+                  {recorderControls.isRecording && (
+                    <HStack bgColor={"white"}>
+                      <Button
+                        bgColor={"red.400"}
+                        _hover={{
+                          bgColor: "red.400",
+                        }}
+                        boxShadow={"sl"}
+                        p={"3"}
+                        onClick={handleStop}
+                      >
+                        <Icon
+                          color={"white"}
+                          transform={"scale(0.9)"}
+                          as={IoStop}
+                        />
+                      </Button>
+                      <Button
+                        bgColor={"#ebebeb"}
+                        boxShadow={"sl"}
+                        p={"3"}
+                        onClick={recorderControls.stopRecording}
+                      >
                         <Icon
                           color={"gray.800"}
                           transform={"scale(0.9)"}
-                          as={IoPlay}
+                          as={ImCross}
                         />
-                      ) : (
-                        <Icon
-                          color={"gray.800"}
-                          transform={"scale(0.9)"}
-                          as={IoPause}
-                        />
-                      )}
-                    </Button>
-                  </HStack>
-                )}
-              </Stack>
+                      </Button>
 
-              <Stack align={"center"} spacing={"6"}>
-                {finish && (
-                  <Button onClick={() => handleSendAudio()} w="full">
-                    Send !
-                  </Button>
-                )}
+                      <Button
+                        bgColor={"#ebebeb"}
+                        boxShadow={"sl"}
+                        p={"3"}
+                        onClick={recorderControls.togglePauseResume}
+                      >
+                        {recorderControls.isPaused ? (
+                          <Icon
+                            color={"gray.800"}
+                            transform={"scale(0.9)"}
+                            as={IoPlay}
+                          />
+                        ) : (
+                          <Icon
+                            color={"gray.800"}
+                            transform={"scale(0.9)"}
+                            as={IoPause}
+                          />
+                        )}
+                      </Button>
+                    </HStack>
+                  )}
+                </Stack>
+
+                <Stack align={"center"} spacing={"6"} mt={"3rem"}>
+                  {finish && (
+                    <Button
+                      onClick={() => handleSendAudio()}
+                      w="80%"
+                      color={"whitesmoke"}
+                      bgColor={"#242e59"}
+                      fontFamily={"pinar"}
+                      _hover={{
+                        bgColor: "white",
+                        color: "black",
+                        border: "1px solid #242e59",
+                      }}
+                    >
+                      ! ارسال
+                    </Button>
+                  )}
+                </Stack>
+                <Stack align={"center"} spacing={"6"} mt="3rem">
+                  {next && (
+                    <Button
+                      color={"whitesmoke"}
+                      w="80%"
+                      bgColor={"#242e59"}
+                      fontFamily={"pinar"}
+                      onClick={() => handleNext()}
+                      _hover={{
+                        bgColor: "white",
+                        color: "black",
+                        border: "1px solid #242e59",
+                      }}
+                    >
+                      ! بعدی
+                    </Button>
+                  )}
+                </Stack>
               </Stack>
-              <Stack align={"center"} spacing={"6"}>
-                {next && (
-                  <Button w="full" onClick={() => handleNext()}>
-                    Next one !
-                  </Button>
-                )}
-              </Stack>
-            </Stack>
-          </Container>
-        </Flex>
-      </Stack>
-    </Box>
+            </Container>
+          </Flex>
+        </Stack>
+      </Box>
+    </>
   );
 }

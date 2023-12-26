@@ -1,7 +1,16 @@
 // root.tsx
 import React, { useContext, useEffect } from "react";
+import PinarStyle from "~/assets/pinar.css";
+
 import { withEmotionCache } from "@emotion/react";
-import { ChakraProvider } from "@chakra-ui/react";
+import {
+  ChakraProvider,
+  defineStyleConfig,
+  extendTheme,
+  Box,
+  HStack,
+  Text,
+} from "@chakra-ui/react";
 import {
   Links,
   LiveReload,
@@ -13,7 +22,7 @@ import {
 import { MetaFunction, LinksFunction } from "@remix-run/node"; // Depends on the runtime you choose
 import styles from "~/../public/style.css";
 
-import { ServerStyleContext, ClientStyleContext } from "./context";
+import { ServerStyleContext, theme, ClientStyleContext } from "./context";
 
 export const meta: MetaFunction = () => {
   return [
@@ -28,6 +37,7 @@ export const meta: MetaFunction = () => {
 export let links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: styles },
+    { rel: "stylesheet", href: PinarStyle },
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
     { rel: "preconnect", href: "https://fonts.gstatic.com" },
     {
@@ -86,9 +96,28 @@ const Document = withEmotionCache(
 export default function App() {
   return (
     <Document>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
+        <HStack
+          bg={"white"}
+          alignItems={"center"}
+          width={"100%"}
+          justifyContent={"start"}
+          shadow={"sm"}
+        >
+          <img
+            style={{
+              paddingLeft: "1rem",
+              width: "140px",
+              marginBottom: "-2.5rem",
+              marginTop: "-2.5rem",
+            }}
+            src="/ussis.png"
+          />
+        </HStack>
         <Outlet />
       </ChakraProvider>
     </Document>
   );
 }
+
+// url('data:image/svg+xml,%3Csvg width='12' height='16' viewBox='0 0 12 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 .99C4 .445 4.444 0 5 0c.552 0 1 .45 1 .99v4.02C6 5.555 5.556 6 5 6c-.552 0-1-.45-1-.99V.99zm6 8c0-.546.444-.99 1-.99.552 0 1 .45 1 .99v4.02c0 .546-.444.99-1 .99-.552 0-1-.45-1-.99V8.99z' fill='%23583098' fill-opacity='0.54' fill-rule='evenodd'/%3E%3C/svg%3E')
